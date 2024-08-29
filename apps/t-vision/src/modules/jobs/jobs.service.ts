@@ -1,11 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Job } from './job.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export default class JobsService {
-  constructor(@Inject(REQUEST) private request: Request) {}
+  constructor(@InjectRepository(Job) private jobsRepository: Repository<Job>) {}
 
-  public getRequest(): Request {
-    return this.request;
+  public getJobs(): Promise<Job[]> {
+    return this.jobsRepository.find();
+  }
+
+  public postJob(): Promise<Job> {
+    const job = this.jobsRepository.create();
+    return this.jobsRepository.save({ ...job, name: 'default-name' });
   }
 }

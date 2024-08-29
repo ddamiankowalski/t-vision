@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import JobsService from './jobs.service';
 
 @Controller('jobs')
@@ -6,7 +6,12 @@ export class JobsController {
   constructor(private jobsService: JobsService) {}
 
   @Get()
-  getJobs(@Req() req: Request) {
-    return Object.keys(this.jobsService.getRequest());
+  getJobs() {
+    return this.jobsService.getJobs();
+  }
+
+  @Post()
+  postJob() {
+    return this.jobsService.postJob();
   }
 }
