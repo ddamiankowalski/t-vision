@@ -1,0 +1,26 @@
+{
+  "name": "t-vision",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/t-vision/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "t-vision:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "t-vision:build:development"
+        },
+        "production": {
+          "buildTarget": "t-vision:build:production"
+        }
+      }
+    }
+  }
+}
