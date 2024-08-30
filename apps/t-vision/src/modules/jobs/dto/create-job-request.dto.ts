@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsIn } from 'class-validator';
 
 export class CreateJobRequestDto {
   @IsString()
@@ -8,4 +8,9 @@ export class CreateJobRequestDto {
   @IsString()
   @IsNotEmpty()
   packageName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsIn(['JOB_START', 'JOB_END'])
+  requestType: 'JOB_START' | 'JOB_END';
 }
