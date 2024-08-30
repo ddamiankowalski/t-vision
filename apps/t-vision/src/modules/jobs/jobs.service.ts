@@ -7,11 +7,11 @@ import { Repository } from 'typeorm';
 export default class JobsService {
   constructor(@InjectRepository(Job) private jobsRepository: Repository<Job>) {}
 
-  public getJobs(): Promise<Job[]> {
+  public async getJobs(): Promise<Job[]> {
     return this.jobsRepository.find();
   }
 
-  public postJob(): Promise<Job> {
+  public async postJob(): Promise<Job> {
     const job = this.jobsRepository.create();
     return this.jobsRepository.save({ ...job, name: 'default-name' });
   }

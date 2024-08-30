@@ -1,9 +1,9 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JobsController } from './jobs.controller';
 import JobsService from './jobs.service';
-import LoggerService from '../logger/logger.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Job } from './job.entity';
+import LoggerService from '../logger/logger.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Job])],
