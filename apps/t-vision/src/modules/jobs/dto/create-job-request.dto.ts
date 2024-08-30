@@ -1,11 +1,11 @@
 import { IsString, IsNotEmpty } from 'class-validator';
 
-export class CreateJobDto {
+export class CreateJobRequestDto {
   @IsString()
   @IsNotEmpty()
-  id: string;
+  uuid: string;
 
   @IsString()
   @IsNotEmpty()
-  name: string;
+  packageName: string;
 }

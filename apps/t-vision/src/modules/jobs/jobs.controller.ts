@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import JobsService from './jobs.service';
-import { CreateJobDto } from './dto';
+import { CreateJobRequestDto } from './dto';
 
 @Controller('jobs')
 export class JobsController {
@@ -12,7 +12,7 @@ export class JobsController {
   }
 
   @Post()
-  postJob(@Body() jobDto: CreateJobDto) {
+  postJobRequest(@Body() jobDto: CreateJobRequestDto) {
     console.log(jobDto);
     return this.jobsService.postJob();
   }
