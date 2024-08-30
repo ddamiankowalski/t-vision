@@ -20,7 +20,24 @@ export default class JobsService {
   public async postJobRequest(
     requestDto: CreateJobRequestDto
   ): Promise<JobRequest> {
-    const request = this.requestRepository.create({ ...requestDto });
-    return this.requestRepository.save(request);
+    const endRequest = await this.requestRepository.save({ ...requestDto });
+
+    if (endRequest.requestType === 'JOB_END') {
+      const startRequest = await this.requestRepository.find({
+        where: { jobId: endRequest.jobId, requestType: 'JOB_START' },
+      });
+
+      const { createdAt } = startRequest[0];
+      console.log(
+        new Date(createdAt).getTime() - new Date(endRequest.createdAt).getTime()
+      );
+      //this._createJob();
+    }
+
+    return endRequest;
+  }
+
+  private async _createJob(): Promise<Job> {
+    return await this.jobsRepository.save({ name: 'testname' });
   }
 }
