@@ -11,6 +11,10 @@ export class CreateJobRequestDto {
 
   @IsString()
   @IsNotEmpty()
+  jobId: string;
+
+  @IsString()
+  @IsNotEmpty()
   @IsIn(['JOB_START', 'JOB_END'])
   requestType: 'JOB_START' | 'JOB_END';
 }

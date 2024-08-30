@@ -1,13 +1,19 @@
-import { Column, Entity } from 'typeorm';
+import { Column, CreateDateColumn, Entity } from 'typeorm';
 
 @Entity()
 export class JobRequest {
-  @Column({ primary: true })
+  @Column({ primary: true, generated: 'uuid' })
   uuid: string;
 
-  @Column()
+  @Column({ name: 'request_type' })
   requestType: 'JOB_START' | 'JOB_END';
 
-  @Column()
+  @Column({ name: 'job_id' })
+  jobId: string;
+
+  @Column({ name: 'package_name' })
   packageName: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 }
