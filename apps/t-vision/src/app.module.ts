@@ -3,12 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Job, JobsModule } from './modules';
-import LoggerModule from './modules/logger/logger.module';
 
 @Module({
   imports: [
     JobsModule,
-    LoggerModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [],
