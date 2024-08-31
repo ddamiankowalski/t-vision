@@ -1,5 +1,9 @@
-<button (click)="onDecrementClick()">decrement</button>
+<button (click)="onDecrementClick()" [disabled]="store.isLoading()">
+  decrement
+</button>
 
 {{ value() }}
 
-<button (click)="onIncrementClick()">increment</button>
+<button (click)="onIncrementClick()" [disabled]="store.isLoading()">
+  increment
+</button>

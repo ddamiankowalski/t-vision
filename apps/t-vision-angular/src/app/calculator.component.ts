@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
   ViewEncapsulation,
 } from '@angular/core';
@@ -14,15 +15,25 @@ import { CalculatorStore } from '@t-vision/t-vision-state';
   encapsulation: ViewEncapsulation.None,
 })
 export class CalculatorComponent {
-  private _store = inject(CalculatorStore);
+  public store = inject(CalculatorStore);
+  // private _injector = inject(Injector);
 
-  public value = this._store.counter;
+  public value = this.store.counter;
+
+  constructor() {
+    effect(() => {
+      console.log(this.store.isLot());
+    });
+    // watchState(this._store, (state) => console.log(state), {
+    //   injector: this._injector,
+    // });
+  }
 
   public onIncrementClick(): void {
-    this._store.increment();
+    this.store.increment();
   }
 
   public onDecrementClick(): void {
-    this._store.decrement();
+    this.store.decrement();
   }
 }
