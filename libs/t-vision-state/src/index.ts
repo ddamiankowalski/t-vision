@@ -1,1 +1,1 @@
-export * from './lib/t-vision-state/t-vision-state.component';
+export * from './lib/store/calculator.store';
