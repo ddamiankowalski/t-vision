@@ -9,5 +9,10 @@
     height: 3rem;
     fill: var(--secondary-dark-highlight);
     cursor: pointer;
+    transition: fill .3s ease;
+
+    &:hover {
+      fill: var(--secondary-dark-hover);
+    }
   }
 }
