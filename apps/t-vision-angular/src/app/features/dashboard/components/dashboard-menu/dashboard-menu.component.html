@@ -1,1 +1,7 @@
-I am a menu
+<div class="tv-dashboard-menu__buttons">
+  @for(button of items(); track button.icon) {
+  <div class="tv-dashboard-menu__button">
+    <ui-icon [name]="button.icon" />
+  </div>
+  }
+</div>
