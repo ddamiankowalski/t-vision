@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@t-vision/packages": ["libs/packages/src/index.ts"],
+      "@t-vision/ui": ["libs/ui/src/index.ts"],
       "@t-vision/utils": ["libs/utils/src/index.ts"]
     }
   },

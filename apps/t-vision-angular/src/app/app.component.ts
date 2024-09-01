@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { DashboardComponent } from './features/dashboard/components/dashboard/dashboard.component';
 
 @Component({
@@ -7,5 +7,6 @@ import { DashboardComponent } from './features/dashboard/components/dashboard/da
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   imports: [DashboardComponent],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {}
