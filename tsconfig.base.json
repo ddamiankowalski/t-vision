@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@t-vision/packages": ["libs/packages/src/index.ts"]
+      "@t-vision/packages": ["libs/packages/src/index.ts"],
+      "@t-vision/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
