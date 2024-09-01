@@ -12,6 +12,7 @@ import { ClassBinder } from '@t-vision/utils';
   styleUrl: 'dashboard.component.scss',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ClassBinder],
 })
 export class DashboardComponent {
   constructor(classBinder: ClassBinder) {
