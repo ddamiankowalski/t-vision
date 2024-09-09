@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Job, JobRequest, JobsModule } from './modules';
+import { Job, JobRequest, JobsModule, PackagesModule } from './modules';
 
 @Module({
   imports: [
     JobsModule,
+    PackagesModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [],
