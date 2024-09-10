@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { DashboardComponent } from './features/dashboard/components/dashboard/dashboard.component';
+import { DashboardComponent } from './features/layout/components/dashboard/dashboard.component';
 
 @Component({
   standalone: true,

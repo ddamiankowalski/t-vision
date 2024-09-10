@@ -1,0 +1,11 @@
+.tv-dashboard-header {
+  border-bottom: 1px solid var(--primary-darker);
+  display: flex;
+  align-items: center;
+
+  &__title {
+    margin: 0 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+}
