@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@t-vision/monitor": ["libs/monitor/src/index.ts"],
       "@t-vision/ui": ["libs/ui/src/index.ts"],
       "@t-vision/utils": ["libs/utils/src/index.ts"]
     }
