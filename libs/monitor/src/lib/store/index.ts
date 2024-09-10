@@ -1,1 +1,1 @@
-export * from './monitor-tests/monitor-tests.store';
+export * from './monitor-tests/monitor.store';

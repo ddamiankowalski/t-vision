@@ -2,12 +2,12 @@ import { inject } from '@angular/core';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
-import { MonitorTestsHttpService } from './monitor-tests-http.service';
+import { MonitorHttpService } from './monitor-http.service';
 import { tapResponse } from '@ngrx/operators';
 
-export const withMonitorTestsMethods = () =>
+export const withMonitorMethods = () =>
   signalStoreFeature(
-    withMethods((store, httpService = inject(MonitorTestsHttpService)) => {
+    withMethods((store, httpService = inject(MonitorHttpService)) => {
       /**
        * Retrieves all packages from the backend and saves them inside the store.
        */

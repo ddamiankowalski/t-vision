@@ -1,20 +1,20 @@
 import { signalStore, withState } from '@ngrx/signals';
 import { Package } from '../../types/package';
-import { withMonitorTestsMethods } from './monitor-tests.methods';
+import { withMonitorMethods } from './monitor.methods';
 
-type MonitorTestsStoreState = {
+type MonitorStoreState = {
   packages: Package[];
   isError: boolean;
   isLoading: boolean;
 };
 
-const initialState: MonitorTestsStoreState = {
+const initialState: MonitorStoreState = {
   packages: [],
   isError: false,
   isLoading: false,
 };
 
-export const MonitorTestsStore = signalStore(
+export const MonitorStore = signalStore(
   withState(initialState),
-  withMonitorTestsMethods()
+  withMonitorMethods()
 );

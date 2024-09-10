@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class MonitorTestsHttpService {
+export class MonitorHttpService {
   private _http = inject(HttpClient);
 
   public getPackages(): Observable<any> {
