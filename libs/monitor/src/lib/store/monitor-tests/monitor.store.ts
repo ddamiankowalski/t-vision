@@ -1,4 +1,4 @@
-import { signalStore, withState } from '@ngrx/signals';
+import { signalStore, withHooks, withState } from '@ngrx/signals';
 import { Package } from '../../types/package';
 import { withMonitorMethods } from './monitor.methods';
 
@@ -15,6 +15,12 @@ const initialState: MonitorStoreState = {
 };
 
 export const MonitorStore = signalStore(
+  { providedIn: 'root' },
   withState(initialState),
-  withMonitorMethods()
+  withMonitorMethods(),
+  withHooks({
+    onInit: (store) => {
+      store.getPackages();
+    },
+  })
 );
