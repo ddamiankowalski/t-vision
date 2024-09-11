@@ -1,3 +1,16 @@
-@if(lastRun(); as lastRun) {
-{{ lastRun.packageName }}
+@if(lastRun(); as run) {
+<div class="mon-test-run__info-wrapper">
+  <div class="mon-test-run__info-header">Name</div>
+  <div class="mon-test-run__info-value">{{ run.packageName }}</div>
+</div>
+
+<div class="mon-test-run__info-wrapper">
+  <div class="mon-test-run__info-header">Time</div>
+  <div class="mon-test-run__info-value">{{ run.timeMs | testTime }}</div>
+</div>
+
+<div class="mon-test-run__info-wrapper">
+  <div class="mon-test-run__info-header"></div>
+  <div class="mon-test-run__info-value"></div>
+</div>
 }

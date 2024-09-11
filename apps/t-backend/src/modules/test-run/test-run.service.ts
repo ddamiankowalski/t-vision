@@ -16,7 +16,10 @@ export default class TestRunService {
   ) {}
 
   public async getLastPackageRun(packageName: string): Promise<TestRun> {
-    const run = await this._testRunRepository.findOneBy({ packageName });
+    const run = await this._testRunRepository.findOne({
+      where: { packageName },
+      order: { createdAt: 'DESC' },
+    });
 
     if (!run) {
       throw new HttpException(

@@ -1,4 +1,4 @@
-import { Column, Entity } from 'typeorm';
+import { Column, CreateDateColumn, Entity } from 'typeorm';
 
 @Entity()
 export class TestRun {
@@ -10,4 +10,7 @@ export class TestRun {
 
   @Column()
   timeMs: number;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 }

@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { ClassBinder } from '@t-vision/utils';
 import { TestRunStore } from '../../store';
+import { TestTimePipe } from '../../pipes';
 
 @Component({
   standalone: true,
@@ -18,9 +19,11 @@ import { TestRunStore } from '../../store';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ClassBinder],
+  imports: [TestTimePipe],
 })
 export class TestRunComponent implements AfterViewInit {
   public packageName = input.required<string>();
+
   public lastRun = computed(() => {
     const lastRuns = this._testRunStore.lastRuns();
     return lastRuns[this.packageName()] || null;

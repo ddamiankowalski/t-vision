@@ -1,1 +1,24 @@
-.mon-test-run {}
+.mon-test-run {
+  display: flex;
+  gap: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--primary-darker);
+  padding: 1rem;
+
+  &__info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  &__info-header {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  &__info-value {
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+}

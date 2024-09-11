@@ -18,7 +18,7 @@ import { IconComponent } from '@t-vision/ui';
   imports: [IconComponent],
 })
 export class DashboardMenuComponent {
-  public items = signal([{ icon: 'home' }, { icon: 'user' }, { icon: 'cog' }]);
+  public items = signal([{ icon: 'home' }]);
 
   constructor(classBinder: ClassBinder) {
     classBinder.bind('tv-dashboard-menu');
