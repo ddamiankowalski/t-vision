@@ -10,7 +10,7 @@ export default class TestRunService {
   constructor(
     @InjectRepository(TestRun) private _testRunRepository: Repository<TestRun>,
     @InjectRepository(TestRunRequest)
-    private requestRepository: Repository<TestRunRequest>
+    private _requestRepository: Repository<TestRunRequest>
   ) {}
 
   public async getTestRuns(): Promise<TestRun[]> {
@@ -30,18 +30,28 @@ export default class TestRunService {
   }
 
   private async _postStartRequest(dto: CreateTestRunRequestDto): Promise<TestRunRequest> {
-    return await this.requestRepository.save({ ...dto });
+    return await this._requestRepository.save({ ...dto });
   }
 
   private async _postEndRequest(dto: CreateTestRunRequestDto): Promise<TestRunRequest> {
     const { runId } = dto;
-    const endRequest = this.requestRepository.create({ ...dto });
-    const startRequest = await this.requestRepository.findOne({ where: { runId, requestType: 'RUN_START' } });
+    const endRequest = this._requestRepository.create({ ...dto });
+    const startRequest = await this._requestRepository.findOne({ where: { runId, requestType: 'RUN_START' } });
 
     if(!startRequest) {
       throw new Error();
     }
 
-    return await this.requestRepository.save(endRequest);
+    this._saveTestRun(startRequest, endRequest);
+    return await this._requestRepository.save(endRequest);
+  }
+
+  private async _saveTestRun(startRequest: TestRunRequest, endRequest: TestRunRequest): Promise<void> {
+    const time = this._calculateTestRunTime(startRequest, endRequest)
+    this._testRunRepository.save({ name: startRequest.packageName, time })
+  }
+
+  private _calculateTestRunTime(startRequest: TestRunRequest, endRequest: TestRunRequest): number {
+    return new Date(endRequest.createdAt).getTime() - new Date(startRequest.createdAt).getTime();
   }
 }

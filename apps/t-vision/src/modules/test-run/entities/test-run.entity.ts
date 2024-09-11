@@ -7,4 +7,7 @@ export class TestRun {
 
   @Column()
   name: string;
+
+  @Column()
+  time: number;
 }
