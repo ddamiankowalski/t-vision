@@ -9,5 +9,5 @@ export class TestRun {
   packageName: string;
 
   @Column()
-  time: number;
+  timeMs: number;
 }

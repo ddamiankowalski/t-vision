@@ -22,12 +22,6 @@ export class PackageService {
   }
 
   private async _checkDuplicate(name: string): Promise<boolean> {
-    const duplicate = await this._repository.findOneBy({ packageName: name });
-
-    if (!duplicate) {
-      return true;
-    }
-
-    return false;
+    return (await this._repository.findOneBy({ packageName: name })) !== null;
   }
 }

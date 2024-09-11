@@ -72,10 +72,10 @@ export default class TestRunService {
   }
 
   private async _saveTestRun(startRequest: TestRunRequest): Promise<void> {
-    const time = this._calculateTestRunTime(startRequest);
+    const timeMs = this._calculateTestRunTime(startRequest);
     this._testRunRepository.save({
       packageName: startRequest.packageName,
-      time,
+      timeMs,
     });
   }
 
