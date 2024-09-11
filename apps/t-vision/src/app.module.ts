@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Job, JobRequest, JobsModule, PackagesModule } from './modules';
+import { JobsModule, PackagesModule, TestRun, TestRunRequest } from './modules';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { Job, JobRequest, JobsModule, PackagesModule } from './modules';
         username: config.get<string>('DATABASE_USER'),
         password: config.get<string>('DATABASE_PASSWORD'),
         database: config.get<string>('DATABASE_NAME'),
-        entities: [Job, JobRequest],
+        entities: [TestRun, TestRunRequest],
         synchronize: true,
       }),
       inject: [ConfigService],

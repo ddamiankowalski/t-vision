@@ -1,7 +1,7 @@
 import { Column, Entity } from 'typeorm';
 
 @Entity()
-export class Job {
+export class TestRun {
   @Column({ primary: true, nullable: false })
   uuid: string;
 

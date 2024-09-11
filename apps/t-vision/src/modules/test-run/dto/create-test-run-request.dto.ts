@@ -1,16 +1,15 @@
 import { IsString, IsNotEmpty, IsIn } from 'class-validator';
 
-export class CreateJobRequestDto {
+export class CreateTestRunRequestDto {
   @IsString()
   @IsNotEmpty()
   packageName: string;
 
   @IsString()
-  @IsNotEmpty()
-  jobId: string;
+  runId: string;
 
   @IsString()
   @IsNotEmpty()
-  @IsIn(['JOB_START', 'JOB_END'])
-  requestType: 'JOB_START' | 'JOB_END';
+  @IsIn(['RUN_START', 'RUN_END'])
+  requestType: 'RUN_START' | 'RUN_END';
 }
