@@ -4,13 +4,15 @@ import { TestRun } from './entities/test-run.entity';
 import { Repository } from 'typeorm';
 import { TestRunRequest } from './entities';
 import { CreateTestRunRequestDto } from './dto';
+import { PackageService } from '../packages/package.service';
 
 @Injectable()
 export default class TestRunService {
   constructor(
     @InjectRepository(TestRun) private _testRunRepository: Repository<TestRun>,
     @InjectRepository(TestRunRequest)
-    private _requestRepository: Repository<TestRunRequest>
+    private _requestRepository: Repository<TestRunRequest>,
+    private _packageService: PackageService
   ) {}
 
   public async getTestRuns(): Promise<TestRun[]> {
@@ -32,6 +34,8 @@ export default class TestRunService {
   private async _postStartRequest(
     dto: CreateTestRunRequestDto
   ): Promise<TestRunRequest> {
+    this._packageService.addPackage(dto.packageName);
+
     const request = await this._requestRepository.findOneBy({
       runId: dto.runId,
     });

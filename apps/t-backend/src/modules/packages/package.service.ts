@@ -12,4 +12,22 @@ export class PackageService {
   public async getPackages(): Promise<Package[]> {
     return this._repository.find();
   }
+
+  public async addPackage(name: string): Promise<Package> {
+    const isDuplicate = await this._checkDuplicate(name);
+
+    if (!isDuplicate) {
+      return await this._repository.save({ packageName: name });
+    }
+  }
+
+  private async _checkDuplicate(name: string): Promise<boolean> {
+    const duplicate = await this._repository.findOneBy({ packageName: name });
+
+    if (!duplicate) {
+      return true;
+    }
+
+    return false;
+  }
 }
