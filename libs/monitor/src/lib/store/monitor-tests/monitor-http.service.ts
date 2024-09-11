@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TestRun } from '../../types/test-run';
 
 @Injectable({ providedIn: 'root' })
 export class MonitorHttpService {
   private _http = inject(HttpClient);
 
-  public getPackages(): Observable<any> {
-    return this._http.get('packages');
+  public getTestRuns(): Observable<TestRun[]> {
+    return this._http.get<TestRun[]>('api/test-run');
   }
 }

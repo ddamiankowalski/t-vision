@@ -14,9 +14,9 @@ export const withMonitorMethods = () =>
       const getPackages = rxMethod<void>(
         pipe(
           tap(() => patchState(store, { isLoading: true })),
-          switchMap(() => httpService.getPackages()),
+          switchMap(() => httpService.getTestRuns()),
           tapResponse({
-            next: (packages) => patchState(store, { packages }),
+            next: (testRuns) => patchState(store, { testRuns }),
             error: () => patchState(store, { isError: true }),
             finalize: () => patchState(store, { isLoading: false }),
           })

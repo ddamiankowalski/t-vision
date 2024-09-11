@@ -23,7 +23,7 @@ export class MonitorComponent {
     classBinder.bind('mon-monitor');
 
     setTimeout(() => {
-      console.log(this._monitor.packages());
+      console.log(this._monitor.testRuns());
     }, 3000);
   }
 }

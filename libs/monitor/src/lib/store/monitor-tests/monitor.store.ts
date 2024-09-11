@@ -1,15 +1,15 @@
 import { signalStore, withHooks, withState } from '@ngrx/signals';
-import { Package } from '../../types/package';
 import { withMonitorMethods } from './monitor.methods';
+import { TestRun } from '../../types/test-run';
 
 type MonitorStoreState = {
-  packages: Package[];
+  testRuns: TestRun[];
   isError: boolean;
   isLoading: boolean;
 };
 
 const initialState: MonitorStoreState = {
-  packages: [],
+  testRuns: [],
   isError: false,
   isLoading: false,
 };
