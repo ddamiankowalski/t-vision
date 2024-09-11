@@ -1,0 +1,22 @@
+.tv-dashboard {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: 3.75rem auto;
+  grid-template-rows: 3.75rem auto;
+  grid-template-areas:
+    'menu header'
+    'menu content';
+
+  &__header {
+  }
+
+  &__menu {
+    grid-area: menu;
+  }
+
+  &__content {
+    grid-area: content;
+    padding: 1.5rem;
+  }
+}
