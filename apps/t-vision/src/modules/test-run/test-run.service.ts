@@ -20,24 +20,28 @@ export default class TestRunService {
   public async postTestRunRequest(
     requestDto: CreateTestRunRequestDto
   ): Promise<TestRunRequest> {
-    const endRequest = await this.requestRepository.save({ ...requestDto });
+    const { requestType } = requestDto;
 
-    if (endRequest.requestType === 'RUN_END') {
-      const startRequest = await this.requestRepository.find({
-        where: { runId: endRequest.runId, requestType: 'RUN_START' },
-      });
-
-      const { createdAt } = startRequest[0];
-      console.log(
-        new Date(createdAt).getTime() - new Date(endRequest.createdAt).getTime()
-      );
-      //this._createJob();
+    if(requestType === 'RUN_START') {
+      return await this._postStartRequest(requestDto);
+    } else {
+      return await this._postEndRequest(requestDto);
     }
-
-    return endRequest;
   }
 
-  private async _createJob(): Promise<TestRun> {
-    return await this._testRunRepository.save({ name: 'testname' });
+  private async _postStartRequest(dto: CreateTestRunRequestDto): Promise<TestRunRequest> {
+    return await this.requestRepository.save({ ...dto });
+  }
+
+  private async _postEndRequest(dto: CreateTestRunRequestDto): Promise<TestRunRequest> {
+    const { runId } = dto;
+    const endRequest = this.requestRepository.create({ ...dto });
+    const startRequest = await this.requestRepository.findOne({ where: { runId, requestType: 'RUN_START' } });
+
+    if(!startRequest) {
+      throw new Error();
+    }
+
+    return await this.requestRepository.save(endRequest);
   }
 }
