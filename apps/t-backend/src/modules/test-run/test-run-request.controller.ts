@@ -3,7 +3,7 @@ import TestRunService from './test-run.service';
 import { CreateTestRunRequestDto } from './dto';
 import { TestRunRequest } from './entities';
 
-@Controller('jobs-requests')
+@Controller('test-run-request')
 export class TestRunRequestController {
   constructor(private jobsService: TestRunService) {}
 

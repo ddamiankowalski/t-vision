@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TestRun } from './entities/test-run.entity';
 import { Repository } from 'typeorm';
@@ -32,20 +32,34 @@ export default class TestRunService {
   private async _postStartRequest(
     dto: CreateTestRunRequestDto
   ): Promise<TestRunRequest> {
+    const request = await this._requestRepository.findOneBy({
+      runId: dto.runId,
+    });
+
+    if (request) {
+      throw new HttpException(
+        `Test run with given id ${dto.runId} already exists!`,
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
     return await this._requestRepository.save({ ...dto });
   }
 
   private async _postEndRequest(
     dto: CreateTestRunRequestDto
   ): Promise<TestRunRequest> {
-    const { runId } = dto;
     const endRequest = this._requestRepository.create({ ...dto });
-    const startRequest = await this._requestRepository.findOne({
-      where: { runId, requestType: 'RUN_START' },
+    const startRequest = await this._requestRepository.findOneBy({
+      runId: dto.runId,
+      requestType: 'RUN_START',
     });
 
     if (!startRequest) {
-      throw new Error();
+      throw new HttpException(
+        'Could not find start request',
+        HttpStatus.BAD_REQUEST
+      );
     }
 
     this._saveTestRun(startRequest, endRequest);
