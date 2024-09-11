@@ -52,6 +52,7 @@ export default class TestRunService {
     const endRequest = this._requestRepository.create({ ...dto });
     const startRequest = await this._requestRepository.findOneBy({
       runId: dto.runId,
+      packageName: dto.packageName,
       requestType: 'RUN_START',
     });
 
@@ -62,25 +63,19 @@ export default class TestRunService {
       );
     }
 
-    this._saveTestRun(startRequest, endRequest);
+    this._saveTestRun(startRequest);
     return await this._requestRepository.save(endRequest);
   }
 
-  private async _saveTestRun(
-    startRequest: TestRunRequest,
-    endRequest: TestRunRequest
-  ): Promise<void> {
-    const time = this._calculateTestRunTime(startRequest, endRequest);
-    this._testRunRepository.save({ name: startRequest.packageName, time });
+  private async _saveTestRun(startRequest: TestRunRequest): Promise<void> {
+    const time = this._calculateTestRunTime(startRequest);
+    this._testRunRepository.save({
+      packageName: startRequest.packageName,
+      time,
+    });
   }
 
-  private _calculateTestRunTime(
-    startRequest: TestRunRequest,
-    endRequest: TestRunRequest
-  ): number {
-    return (
-      new Date(endRequest.createdAt).getTime() -
-      new Date(startRequest.createdAt).getTime()
-    );
+  private _calculateTestRunTime(startRequest: TestRunRequest): number {
+    return Date.now() - new Date(startRequest.createdAt).getTime();
   }
 }

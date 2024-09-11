@@ -1,18 +1,12 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "T-BACKEND DEBUG",
+            "port": 9229,
+            "request": "attach",
             "type": "node",
-            "request": "launch",
-            "name": "Debug Nest Framework",
-            "args": ["${workspaceFolder}/src/main.ts"],
-            "runtimeArgs": ["--nolazy", "-r", "ts-node/register", "-r", "tsconfig-paths/register"],
-            "sourceMaps": true,
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector"
+            "cwd": "${workspaceFolder}/apps/t-backend"
         }
     ]
 }

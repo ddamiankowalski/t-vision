@@ -2,11 +2,11 @@ import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class TestRun {
-  @Column({ primary: true, nullable: false })
+  @Column({ primary: true, generated: 'uuid' })
   uuid: string;
 
   @Column()
-  name: string;
+  packageName: string;
 
   @Column()
   time: number;
