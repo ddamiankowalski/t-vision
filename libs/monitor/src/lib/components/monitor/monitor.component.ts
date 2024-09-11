@@ -5,7 +5,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ClassBinder } from '@t-vision/utils';
-import { MonitorStore } from '../../store';
+import { TestRunStore } from '../../store';
 
 @Component({
   standalone: true,
@@ -17,7 +17,7 @@ import { MonitorStore } from '../../store';
   providers: [ClassBinder],
 })
 export class MonitorComponent {
-  private _monitor = inject(MonitorStore);
+  private _monitor = inject(TestRunStore);
 
   constructor(classBinder: ClassBinder) {
     classBinder.bind('mon-monitor');

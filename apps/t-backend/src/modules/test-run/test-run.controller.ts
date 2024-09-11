@@ -10,7 +10,7 @@ export class TestRunController {
     return this._testRunService.getTestRuns();
   }
 
-  @Get('last-run/:name')
+  @Get('last/:name')
   getLastPackageRun(@Param('name') name: string) {
     return this._testRunService.getLastPackageRun(name);
   }
