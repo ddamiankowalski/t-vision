@@ -15,6 +15,19 @@ export default class TestRunService {
     private _packageService: PackageService
   ) {}
 
+  public async getLastPackageRun(packageName: string): Promise<TestRun> {
+    const run = await this._testRunRepository.findOneBy({ packageName });
+
+    if (!run) {
+      throw new HttpException(
+        `Could not find a test run for name ${packageName}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    return run;
+  }
+
   public async getTestRuns(): Promise<TestRun[]> {
     return this._testRunRepository.find();
   }

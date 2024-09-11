@@ -21,9 +21,5 @@ export class MonitorComponent {
 
   constructor(classBinder: ClassBinder) {
     classBinder.bind('mon-monitor');
-
-    setTimeout(() => {
-      console.log(this._monitor.testRuns());
-    }, 3000);
   }
 }
