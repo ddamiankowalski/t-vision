@@ -13,6 +13,6 @@ export class TestRunHttpService {
   }
 
   public getLastTestRun(packageName: string): Observable<TestRun> {
-    return this._http.get<TestRun>(`${this._prefix}/${packageName}`);
+    return this._http.get<TestRun>(`${this._prefix}/last/${packageName}`);
   }
 }

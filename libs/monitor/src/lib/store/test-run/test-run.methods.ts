@@ -6,14 +6,16 @@ import {
   type,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, switchMap } from 'rxjs';
+import { concatMap, pipe, switchMap } from 'rxjs';
 import { TestRunHttpService } from './test-run-http.service';
 import { tapResponse } from '@ngrx/operators';
 import { TestRun } from '../../types/test-run';
 
 export const withMonitorMethods = () =>
   signalStoreFeature(
-    { state: type<{ lastRuns: TestRun[]; allRuns: TestRun[] }>() },
+    {
+      state: type<{ lastRuns: Record<string, TestRun>; allRuns: TestRun[] }>(),
+    },
     withMethods((store, httpService = inject(TestRunHttpService)) => {
       /**
        * Retrieves all test runs from the backend and saves them inside the store.
@@ -34,10 +36,15 @@ export const withMonitorMethods = () =>
        */
       const getLastTestRun = rxMethod<string>(
         pipe(
-          switchMap((packageName) => httpService.getLastTestRun(packageName)),
+          concatMap((packageName) => httpService.getLastTestRun(packageName)),
           tapResponse({
             next: (lastRun) =>
-              patchState(store, { lastRuns: [...store.lastRuns(), lastRun] }),
+              patchState(store, {
+                lastRuns: {
+                  ...store.lastRuns(),
+                  [lastRun.packageName]: lastRun,
+                },
+              }),
             error: (err) => console.error(err),
           })
         )

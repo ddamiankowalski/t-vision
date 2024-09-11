@@ -1,1 +1,3 @@
-I am a monitor component
+@for(package of packageStore.packages(); track package.uuid) {
+<mon-test-run [packageName]="package.packageName"></mon-test-run>
+}

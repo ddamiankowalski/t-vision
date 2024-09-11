@@ -1,5 +1,7 @@
+import { PackageName } from './package';
+
 export type TestRun = {
   uuid: string;
-  packageName: string;
+  packageName: PackageName;
   timeMs: string;
 };
