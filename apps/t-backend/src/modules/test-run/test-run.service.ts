@@ -40,6 +40,17 @@ export default class TestRunService {
   ): Promise<TestRunRequest> {
     const { requestType } = requestDto;
 
+    const request = await this._requestRepository.findOneBy({
+      runId: requestDto.runId,
+    });
+
+    if (request) {
+      throw new HttpException(
+        `Test run with given id ${requestDto.runId} already exists!`,
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
     if (requestType === 'RUN_START') {
       return await this._postStartRequest(requestDto);
     } else {
@@ -51,18 +62,6 @@ export default class TestRunService {
     dto: CreateTestRunRequestDto
   ): Promise<TestRunRequest> {
     this._packageService.addPackage(dto.packageName);
-
-    const request = await this._requestRepository.findOneBy({
-      runId: dto.runId,
-    });
-
-    if (request) {
-      throw new HttpException(
-        `Test run with given id ${dto.runId} already exists!`,
-        HttpStatus.BAD_REQUEST
-      );
-    }
-
     return await this._requestRepository.save({ ...dto });
   }
 

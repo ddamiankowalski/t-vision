@@ -1,14 +1,23 @@
 .mon-test-run {
-  width: fit-content;
+  flex-basis: 22rem;
+  flex-shrink: 1;
 
   &__wrapper {
     padding: 1rem 2rem;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: 2rem;
     border: 1px solid var(--primary-darker);
     border-radius: 0.5rem;
     animation-name: fade-in;
     animation-duration: 0.3s;
+    height: 4.125rem;
+    box-sizing: border-box;
+  }
+
+  &__no-tests {
+    font-size: 0.75rem;
   }
 
   &__info-wrapper {
