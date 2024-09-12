@@ -42,11 +42,12 @@ export default class TestRunService {
 
     const request = await this._requestRepository.findOneBy({
       runId: requestDto.runId,
+      requestType,
     });
 
     if (request) {
       throw new HttpException(
-        `Test run with given id ${requestDto.runId} already exists!`,
+        `Test run with given id ${requestDto.runId} and type ${requestType} already exists!`,
         HttpStatus.BAD_REQUEST
       );
     }
