@@ -1,16 +1,18 @@
 @if(lastRun(); as run) {
-<div class="mon-test-run__info-wrapper">
-  <div class="mon-test-run__info-header">Name</div>
-  <div class="mon-test-run__info-value">{{ run.packageName }}</div>
-</div>
+<div class="mon-test-run__wrapper">
+  <div class="mon-test-run__info-wrapper">
+    <div class="mon-test-run__info-header">Name</div>
+    <div class="mon-test-run__info-value">{{ run.packageName }}</div>
+  </div>
 
-<div class="mon-test-run__info-wrapper">
-  <div class="mon-test-run__info-header">Time</div>
-  <div class="mon-test-run__info-value">{{ run.timeMs | testTime }}</div>
-</div>
+  <div class="mon-test-run__info-wrapper">
+    <div class="mon-test-run__info-header">Time</div>
+    <div class="mon-test-run__info-value">{{ run.timeMs | testTime }}</div>
+  </div>
 
-<div class="mon-test-run__info-wrapper">
-  <div class="mon-test-run__info-header"></div>
-  <div class="mon-test-run__info-value"></div>
+  <div class="mon-test-run__info-wrapper">
+    <div class="mon-test-run__info-header">Status</div>
+    <div class="mon-test-run__info-value">Finished</div>
+  </div>
 </div>
 }

@@ -1,4 +1,4 @@
-import { signalStore, withState } from '@ngrx/signals';
+import { signalStore, withHooks, withState } from '@ngrx/signals';
 import { withPackagesMethods } from './packages.methods';
 import { Package } from '../../types/package';
 
@@ -13,5 +13,10 @@ const initialState: PackageStoreState = {
 export const PackageStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
-  withPackagesMethods()
+  withPackagesMethods(),
+  withHooks({
+    onInit: (store) => {
+      store.getPackages();
+    },
+  })
 );

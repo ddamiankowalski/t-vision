@@ -5,3 +5,9 @@ export type TestRun = {
   packageName: PackageName;
   timeMs: number;
 };
+
+export type TestRunInfo = {
+  packageName: PackageName;
+  lastRun: TestRun | null;
+  allRuns: TestRun[];
+};

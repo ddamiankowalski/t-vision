@@ -5,8 +5,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ClassBinder } from '@t-vision/utils';
-import { PackageStore } from '../../store/packages/packages.store';
 import { TestRunComponent } from '../test-run/test-run.component';
+import { PackageStore } from '../../store/packages/packages.store';
 
 @Component({
   standalone: true,
@@ -23,6 +23,5 @@ export class MonitorComponent {
 
   constructor(classBinder: ClassBinder) {
     classBinder.bind('mon-monitor');
-    this.packageStore.getPackages();
   }
 }

@@ -6,29 +6,43 @@ import {
   type,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { concatMap, pipe, switchMap } from 'rxjs';
+import { mergeMap, pipe } from 'rxjs';
 import { TestRunHttpService } from './test-run-http.service';
 import { tapResponse } from '@ngrx/operators';
-import { TestRun } from '../../types/test-run';
+import { TestRun, TestRunInfo } from '../../types/test-run';
+import { PackageName } from '../../types/package';
 
-export const withMonitorMethods = () =>
+export const withTestRunMethods = () =>
   signalStoreFeature(
     {
-      state: type<{ lastRuns: Record<string, TestRun>; allRuns: TestRun[] }>(),
+      state: type<{ runInfos: TestRunInfo[] }>(),
     },
     withMethods((store, httpService = inject(TestRunHttpService)) => {
-      /**
-       * Retrieves all test runs from the backend and saves them inside the store.
-       */
-      const getTestRuns = rxMethod<void>(
-        pipe(
-          switchMap(() => httpService.getTestRuns()),
-          tapResponse({
-            next: (allRuns) => patchState(store, { allRuns }),
-            error: () => patchState(store, { allRuns: [] }),
-          })
-        )
-      );
+      const _packageExists = (name: PackageName): TestRunInfo | null => {
+        return (
+          store.runInfos().find((info) => info.packageName === name) || null
+        );
+      };
+
+      const _replaceLastRun = (
+        packageName: PackageName,
+        lastRun: TestRun | null
+      ): void => {
+        const existing = _packageExists(packageName);
+        const runs = store.runInfos();
+        patchState(store, {
+          runInfos: [
+            ...runs.filter((info) => info.packageName !== packageName),
+            existing
+              ? { ...existing, lastRun }
+              : {
+                  packageName,
+                  lastRun,
+                  allRuns: [],
+                },
+          ],
+        });
+      };
 
       /**
        * Retrieves last successful test run for a specific package name and
@@ -36,23 +50,20 @@ export const withMonitorMethods = () =>
        */
       const getLastTestRun = rxMethod<string>(
         pipe(
-          concatMap((packageName) => httpService.getLastTestRun(packageName)),
-          tapResponse({
-            next: (lastRun) =>
-              patchState(store, {
-                lastRuns: {
-                  ...store.lastRuns(),
-                  [lastRun.packageName]: lastRun,
-                },
-              }),
-            error: (err) => console.error(err),
-          })
+          mergeMap((packageName) =>
+            httpService.getLastTestRun(packageName).pipe(
+              tapResponse({
+                next: (run) => _replaceLastRun(packageName, run),
+                error: () => _replaceLastRun(packageName, null),
+              })
+            )
+          )
         )
       );
 
       return {
-        getTestRuns,
         getLastTestRun,
+        _packageExists,
       };
     })
   );

@@ -13,11 +13,14 @@ export const withPackagesMethods = () =>
        */
       const getPackages = rxMethod<void>(
         pipe(
-          switchMap(() => httpService.getPackages()),
-          tapResponse({
-            next: (packages) => patchState(store, { packages }),
-            error: () => patchState(store, { packages: [] }),
-          })
+          switchMap(() =>
+            httpService.getPackages().pipe(
+              tapResponse({
+                next: (packages) => patchState(store, { packages }),
+                error: () => patchState(store, {}),
+              })
+            )
+          )
         )
       );
 

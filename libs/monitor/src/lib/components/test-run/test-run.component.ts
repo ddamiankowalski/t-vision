@@ -25,14 +25,22 @@ export class TestRunComponent implements AfterViewInit {
   public packageName = input.required<string>();
 
   public lastRun = computed(() => {
-    const lastRuns = this._testRunStore.lastRuns();
-    return lastRuns[this.packageName()] || null;
+    const informations = this._testRunStore.runInfos();
+    const packageInfo = informations.find(
+      (info) => info.packageName === this.packageName()
+    );
+
+    return packageInfo ? packageInfo.lastRun : null;
   });
 
   private _testRunStore = inject(TestRunStore);
 
   constructor(private _classBinder: ClassBinder) {
     this._classBinder.bind('mon-test-run');
+
+    setTimeout(() => {
+      console.log(this._testRunStore.runInfos());
+    }, 2000);
   }
 
   public ngAfterViewInit(): void {
