@@ -67,7 +67,7 @@ export default class TestRunService {
     this._packageService.addPackage(dto.packageName);
 
     const request = await this._requestRepository.save({ ...dto });
-    this._gateway.emitTestRunStart();
+    this._gateway.emitTestRunStart(request.packageName);
 
     return request;
   }
@@ -91,17 +91,17 @@ export default class TestRunService {
 
     this._saveTestRun(startRequest);
 
-    const request = await this._requestRepository.save(endRequest);
-    this._gateway.emitTestRunEnd();
-    return request;
+    return await this._requestRepository.save(endRequest);
   }
 
   private async _saveTestRun(startRequest: TestRunRequest): Promise<void> {
     const timeMs = this._calculateTestRunTime(startRequest);
-    this._testRunRepository.save({
+    const run = await this._testRunRepository.save({
       packageName: startRequest.packageName,
       timeMs,
     });
+
+    this._gateway.emitTestRunEnd(run);
   }
 
   private _calculateTestRunTime(startRequest: TestRunRequest): number {

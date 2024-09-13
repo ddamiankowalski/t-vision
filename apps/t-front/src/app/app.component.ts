@@ -9,4 +9,4 @@ import { DashboardComponent } from './features/layout/components/dashboard/dashb
   imports: [DashboardComponent],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent {}
+export class AppComponent { }
