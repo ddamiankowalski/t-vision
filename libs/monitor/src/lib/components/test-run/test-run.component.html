@@ -13,11 +13,15 @@
 
   <div class="mon-test-run__info-wrapper">
     <div class="mon-test-run__info-header">Status</div>
-    <div class="mon-test-run__info-value">Finished</div>
+    <div class="mon-test-run__info-value">
+      {{ runInfo.ongoing ? 'In progress' : 'Finished' }}
+    </div>
   </div>
   } @else {
   <span class="mon-test-run__no-tests"
     >There are no tests for this package</span
   >
-  }} @else { Loading... }
+  } } @else {
+  <div class="mon-test-run__loading">Loading...</div>
+  }
 </div>

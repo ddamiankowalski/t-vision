@@ -15,7 +15,7 @@ export default class TestRunService {
     private _requestRepository: Repository<TestRunRequest>,
     private _packageService: PackageService,
     private _gateway: TestRunGateway
-  ) { }
+  ) {}
 
   public async getLastPackageRun(packageName: string): Promise<TestRun> {
     const run = await this._testRunRepository.findOne({
