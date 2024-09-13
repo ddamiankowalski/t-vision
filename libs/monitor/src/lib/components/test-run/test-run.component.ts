@@ -63,6 +63,8 @@ export class TestRunComponent implements AfterViewInit {
   }
 
   private _updateStyles(): void {
+    this._classBinder.conditionalBind(!run.ongoing, 'mon-test-run--finished');
+
     const run = this.runInfo();
 
     if (run) {
