@@ -1,6 +1,16 @@
 @switch (status()) { @case ('FAILED') {
-<span class="mon-test-run-icon__icon"></span>
-Failed } @case ('ONGOING') {
-<ui-loader /> } @case ('SUCCESS') {
-<span class="mon-test-run-icon__icon"></span>
-Success } }
+<div class="mon-test-run-icon__wrapper">
+  <ui-icon name="check" />
+  <span class="mon-test-run-icon__icon mon-test-run-icon__icon--failed"></span>
+</div>
+<span class="mon-test-run-icon__text">Failed</span>
+} @case ('ONGOING') {
+<ui-loader color="warn-dark" />
+} @case ('SUCCESS') {
+<div class="mon-test-run-icon__wrapper">
+  <ui-icon name="check" />
+  <span class="mon-test-run-icon__icon mon-test-run-icon__icon--success"></span>
+</div>
+<span class="mon-test-run-icon__text">Success</span>
+
+} }

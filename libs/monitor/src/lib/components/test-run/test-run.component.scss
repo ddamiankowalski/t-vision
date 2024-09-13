@@ -9,8 +9,9 @@
   }
 
   &__wrapper {
-    padding: 1rem 2rem;
-    display: flex;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr;
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
@@ -19,7 +20,7 @@
     animation-name: fade-in;
     animation-duration: 0.3s;
     height: 4.125rem;
-    box-sizing: border-box;
+    box-sizing: content-box;
     transition: all .3s ease;
   }
 

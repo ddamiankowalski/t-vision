@@ -19,6 +19,13 @@
       border-bottom-color: transparent;
     }
   }
+
+  &--warn-dark {
+    .ui-loader__spinner {
+      border: 2px solid var(--warn-dark);
+      border-bottom-color: transparent;
+    }
+  }
 }
 
 @keyframes rotation {

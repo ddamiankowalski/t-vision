@@ -6,11 +6,36 @@
   align-items: center;
   font-size: 0.75rem;
 
+  ui-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 18px;
+    transform: translate(-50%, -50%);
+    fill: #fff;
+  }
+
   &__icon {
     display: block;
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
-    background-color: var(--success-dark);
+
+    &--success {
+      background-color: var(--success-dark);
+    }
+
+    &--failed {
+      background-color: var(--failure-dark);
+    }
   }
+
+  &__wrapper {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__text {}
 }

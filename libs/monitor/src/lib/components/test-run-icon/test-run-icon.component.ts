@@ -4,7 +4,7 @@ import {
   input,
   ViewEncapsulation,
 } from '@angular/core';
-import { LoaderComponent } from '@t-vision/ui';
+import { IconComponent, LoaderComponent } from '@t-vision/ui';
 import { ClassBinder } from '@t-vision/utils';
 
 @Component({
@@ -15,7 +15,7 @@ import { ClassBinder } from '@t-vision/utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [ClassBinder],
-  imports: [LoaderComponent],
+  imports: [LoaderComponent, IconComponent],
 })
 export class TestRunIconComponent {
   public status = input.required<'SUCCESS' | 'ONGOING' | 'FAILED'>();
