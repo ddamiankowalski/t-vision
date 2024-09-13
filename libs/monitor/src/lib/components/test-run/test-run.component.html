@@ -1,13 +1,15 @@
-<div class="mon-test-run__wrapper">
-  @if(runInfo(); as runInfo) {
-  <ui-loader />
+@let info = runInfo();
 
+<div class="mon-test-run__wrapper">
+  @if(info) { @let lastRun = info.lastRun;
+
+  <mon-test-run-icon [status]="runStatus()" />
   <div class="mon-test-run__info-wrapper">
     <div class="mon-test-run__info-header">Name</div>
-    <div class="mon-test-run__info-value">{{ runInfo.packageName }}</div>
+    <div class="mon-test-run__info-value">{{ info.packageName }}</div>
   </div>
 
-  @if(runInfo.lastRun; as lastRun) {
+  @if(lastRun) {
   <div class="mon-test-run__info-wrapper">
     <div class="mon-test-run__info-header">Time</div>
     <div class="mon-test-run__info-value">{{ lastRun.timeMs | testTime }}</div>
@@ -16,7 +18,7 @@
   <div class="mon-test-run__info-wrapper">
     <div class="mon-test-run__info-header">Status</div>
     <div class="mon-test-run__info-value">
-      {{ runInfo.ongoing ? 'In progress' : 'Finished' }}
+      {{ info.ongoing ? 'In progress' : 'Finished' }}
     </div>
   </div>
   } @else {

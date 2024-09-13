@@ -1,5 +1,6 @@
 .mon-monitor {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
   flex-wrap: wrap;
   gap: 1rem;
 }

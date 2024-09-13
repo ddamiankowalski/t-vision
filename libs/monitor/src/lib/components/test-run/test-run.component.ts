@@ -12,6 +12,7 @@ import { ClassBinder } from '@t-vision/utils';
 import { TestRunStore } from '../../store';
 import { TestTimePipe } from '../../pipes';
 import { LoaderComponent } from '@t-vision/ui';
+import { TestRunIconComponent } from '../test-run-icon/test-run-icon.component';
 
 @Component({
   standalone: true,
@@ -21,10 +22,25 @@ import { LoaderComponent } from '@t-vision/ui';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ClassBinder],
-  imports: [TestTimePipe, LoaderComponent],
+  imports: [
+    TestTimePipe,
+    LoaderComponent,
+    TestRunIconComponent,
+    TestRunIconComponent,
+  ],
 })
 export class TestRunComponent implements AfterViewInit {
   public packageName = input.required<string>();
+
+  public runStatus = computed(() => {
+    const runInfo = this.runInfo();
+
+    if (runInfo && !runInfo.ongoing) {
+      return 'SUCCESS';
+    }
+
+    return 'ONGOING';
+  });
 
   public runInfo = computed(() => {
     const informations = this._testRunStore.packageRuns();
@@ -47,7 +63,10 @@ export class TestRunComponent implements AfterViewInit {
   }
 
   private _updateStyles(): void {
-    console.log(this.runInfo());
-    this._classBinder.bind;
+    const run = this.runInfo();
+
+    if (run) {
+      this._classBinder.conditionalBind(!run.ongoing, 'mon-test-run--finished');
+    }
   }
 }

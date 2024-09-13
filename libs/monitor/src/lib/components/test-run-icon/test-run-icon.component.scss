@@ -1,0 +1,16 @@
+.mon-test-run-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+
+  &__icon {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background-color: var(--success-dark);
+  }
+}
