@@ -25,7 +25,7 @@ export class TestRunComponent implements AfterViewInit {
   public packageName = input.required<string>();
 
   public runInfo = computed(() => {
-    const informations = this._testRunStore.runInfos();
+    const informations = this._testRunStore.packageRuns();
     const packageInfo = informations.find(
       (info) => info.packageName === this.packageName()
     );

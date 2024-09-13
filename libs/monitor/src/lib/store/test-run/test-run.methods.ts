@@ -6,34 +6,70 @@ import {
   type,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { mergeMap, pipe } from 'rxjs';
+import { mergeMap, pipe, tap } from 'rxjs';
 import { TestRunHttpService } from './test-run-http.service';
 import { tapResponse } from '@ngrx/operators';
-import { TestRun, TestRunInfo } from '../../types/test-run';
+import { TestRun, PackageTestRuns } from '../../types/test-run';
 import { PackageName } from '../../types/package';
 
 export const withTestRunMethods = () =>
   signalStoreFeature(
     {
-      state: type<{ runInfos: TestRunInfo[] }>(),
+      state: type<{ packageRuns: PackageTestRuns[] }>(),
     },
     withMethods((store, httpService = inject(TestRunHttpService)) => {
+      /**
+       *
+       */
+      const _handleRunStart = rxMethod<string>(
+        pipe(tap((packageName) => _setPackageOngoing(packageName, true)))
+      );
+
+      /**
+       * Handles the state when the given test run is finished.
+       */
+      const _handleRunEnd = rxMethod<TestRun>(
+        pipe(
+          tap((testRun) => {
+            _replaceLastRun(testRun.packageName, testRun);
+            _setPackageOngoing(testRun.packageName, false);
+          })
+        )
+      );
+
       /**
        * Utility function that checks whether package exists.
        *
        * @param name
        * @returns
        */
-      const _packageExists = (name: PackageName): TestRunInfo | null => {
+      const _packageExists = (name: PackageName): PackageTestRuns | null => {
         return (
-          store.runInfos().find((info) => info.packageName === name) || null
+          store.packageRuns().find((info) => info.packageName === name) || null
         );
       };
 
-
+      /**
+       * Utility function that sets a package run as ongoing or not.
+       *
+       * @param packageName
+       * @param ongoing
+       */
+      const _setPackageOngoing = (
+        packageName: string,
+        ongoing: boolean
+      ): void => {
+        patchState(store, {
+          packageRuns: store
+            .packageRuns()
+            .map((run) =>
+              run.packageName === packageName ? { ...run, ongoing } : run
+            ),
+        });
+      };
 
       /**
-       * Utirily method that replaces last run for a given package name to either a run or null.
+       * Utility method that replaces last run for a given package name to either a run or null.
        *
        * @param packageName
        * @param lastRun
@@ -43,17 +79,18 @@ export const withTestRunMethods = () =>
         lastRun: TestRun | null
       ): void => {
         const existing = _packageExists(packageName);
-        const runs = store.runInfos();
+        const runs = store.packageRuns();
         patchState(store, {
-          runInfos: [
+          packageRuns: [
             ...runs.filter((info) => info.packageName !== packageName),
             existing
               ? { ...existing, lastRun }
               : {
-                packageName,
-                lastRun,
-                allRuns: [],
-              },
+                  packageName,
+                  lastRun,
+                  allRuns: [],
+                  ongoing: false,
+                },
           ],
         });
       };
@@ -76,7 +113,9 @@ export const withTestRunMethods = () =>
       );
 
       return {
-        getLastTestRun
+        getLastTestRun,
+        _handleRunStart,
+        _handleRunEnd,
       };
     })
   );

@@ -20,7 +20,7 @@ export class TestRunHttpService {
     return this._http.get<TestRun>(`${this._prefix}/last/${packageName}`);
   }
 
-  public getTestStart$(): Observable<PackageName> {
+  public getTestRunStart$(): Observable<PackageName> {
     return this._socket.fromEvent('test-run-start');
   }
 
