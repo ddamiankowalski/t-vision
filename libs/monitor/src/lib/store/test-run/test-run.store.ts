@@ -19,6 +19,7 @@ export const TestRunStore = signalStore(
   withHooks({
     onInit: () => {
       const httpService = inject(TestRunHttpService);
+
       httpService.getTestStart$().subscribe(x => console.log(x))
 
       httpService.getTestRunEnd$().subscribe(x => console.log(x))

@@ -18,12 +18,26 @@ export const withTestRunMethods = () =>
       state: type<{ runInfos: TestRunInfo[] }>(),
     },
     withMethods((store, httpService = inject(TestRunHttpService)) => {
+      /**
+       * Utility function that checks whether package exists.
+       *
+       * @param name
+       * @returns
+       */
       const _packageExists = (name: PackageName): TestRunInfo | null => {
         return (
           store.runInfos().find((info) => info.packageName === name) || null
         );
       };
 
+
+
+      /**
+       * Utirily method that replaces last run for a given package name to either a run or null.
+       *
+       * @param packageName
+       * @param lastRun
+       */
       const _replaceLastRun = (
         packageName: PackageName,
         lastRun: TestRun | null
@@ -36,10 +50,10 @@ export const withTestRunMethods = () =>
             existing
               ? { ...existing, lastRun }
               : {
-                  packageName,
-                  lastRun,
-                  allRuns: [],
-                },
+                packageName,
+                lastRun,
+                allRuns: [],
+              },
           ],
         });
       };
@@ -62,8 +76,7 @@ export const withTestRunMethods = () =>
       );
 
       return {
-        getLastTestRun,
-        _packageExists,
+        getLastTestRun
       };
     })
   );
