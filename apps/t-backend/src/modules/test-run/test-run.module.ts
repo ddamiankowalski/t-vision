@@ -6,6 +6,7 @@ import { TestRun } from './entities/test-run.entity';
 import { TestRunRequest } from './entities/test-run-request.entity';
 import { TestRunRequestController } from './test-run-request.controller';
 import { PackagesModule } from '../packages/packages.module';
+import { TestRunGateway } from './test-run.gateway';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { PackagesModule } from '../packages/packages.module';
     TypeOrmModule.forFeature([TestRun, TestRunRequest]),
   ],
   controllers: [TestRunController, TestRunRequestController],
-  providers: [TestRunService],
+  providers: [TestRunService, TestRunGateway],
 })
-export class JobsModule {}
+export class JobsModule { }

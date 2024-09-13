@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { TestRunRequest } from './entities';
 import { CreateTestRunRequestDto } from './dto';
 import { PackageService } from '../packages/package.service';
+import { TestRunGateway } from './test-run.gateway';
 
 @Injectable()
 export default class TestRunService {
@@ -12,8 +13,9 @@ export default class TestRunService {
     @InjectRepository(TestRun) private _testRunRepository: Repository<TestRun>,
     @InjectRepository(TestRunRequest)
     private _requestRepository: Repository<TestRunRequest>,
-    private _packageService: PackageService
-  ) {}
+    private _packageService: PackageService,
+    private _gateway: TestRunGateway
+  ) { }
 
   public async getLastPackageRun(packageName: string): Promise<TestRun> {
     const run = await this._testRunRepository.findOne({
@@ -63,7 +65,11 @@ export default class TestRunService {
     dto: CreateTestRunRequestDto
   ): Promise<TestRunRequest> {
     this._packageService.addPackage(dto.packageName);
-    return await this._requestRepository.save({ ...dto });
+
+    const request = await this._requestRepository.save({ ...dto });
+    this._gateway.emitTestRunStart();
+
+    return request;
   }
 
   private async _postEndRequest(
@@ -84,7 +90,10 @@ export default class TestRunService {
     }
 
     this._saveTestRun(startRequest);
-    return await this._requestRepository.save(endRequest);
+
+    const request = await this._requestRepository.save(endRequest);
+    this._gateway.emitTestRunEnd();
+    return request;
   }
 
   private async _saveTestRun(startRequest: TestRunRequest): Promise<void> {
