@@ -34,7 +34,7 @@ export class TestRunComponent implements AfterViewInit {
   public status = computed(() => {
     const runInfo = this.runInfo();
 
-    if (!runInfo || !runInfo.lastRun) {
+    if (!runInfo || !runInfo.lastRun || runInfo.ongoing) {
       return 'ONGOING';
     }
 
