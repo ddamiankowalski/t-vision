@@ -2,6 +2,12 @@
   flex-basis: 22rem;
   flex-shrink: 1;
 
+  &--finished {
+    .mon-test-run__wrapper {
+      border: green;
+    }
+  }
+
   &__wrapper {
     padding: 1rem 2rem;
     display: flex;
@@ -14,6 +20,12 @@
     animation-duration: 0.3s;
     height: 4.125rem;
     box-sizing: border-box;
+    transition: all .3s ease;
+
+    &>* {
+      animation-name: fade-in;
+      animation-duration: 0.3s;
+    }
   }
 
   &__no-tests {
@@ -35,6 +47,7 @@
   &__info-value {
     font-size: 0.75rem;
     font-weight: 400;
+    text-wrap: nowrap;
   }
 }
 

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   input,
   ViewEncapsulation,
@@ -38,9 +39,15 @@ export class TestRunComponent implements AfterViewInit {
 
   constructor(private _classBinder: ClassBinder) {
     this._classBinder.bind('mon-test-run');
+    effect(() => this._updateStyles());
   }
 
   public ngAfterViewInit(): void {
     this._testRunStore.getLastTestRun(this.packageName());
+  }
+
+  private _updateStyles(): void {
+    console.log(this.runInfo());
+    this._classBinder.bind;
   }
 }
