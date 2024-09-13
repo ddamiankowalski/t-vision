@@ -1,5 +1,7 @@
 <div class="mon-test-run__wrapper">
   @if(runInfo(); as runInfo) {
+  <ui-loader />
+
   <div class="mon-test-run__info-wrapper">
     <div class="mon-test-run__info-header">Name</div>
     <div class="mon-test-run__info-value">{{ runInfo.packageName }}</div>
@@ -22,6 +24,6 @@
     >There are no tests for this package</span
   >
   } } @else {
-  <div class="mon-test-run__loading">Loading...</div>
+  <div class="mon-test-run__loading"><ui-loader /></div>
   }
 </div>

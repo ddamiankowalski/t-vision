@@ -10,6 +10,7 @@ import {
 import { ClassBinder } from '@t-vision/utils';
 import { TestRunStore } from '../../store';
 import { TestTimePipe } from '../../pipes';
+import { LoaderComponent } from '@t-vision/ui';
 
 @Component({
   standalone: true,
@@ -19,7 +20,7 @@ import { TestTimePipe } from '../../pipes';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ClassBinder],
-  imports: [TestTimePipe],
+  imports: [TestTimePipe, LoaderComponent],
 })
 export class TestRunComponent implements AfterViewInit {
   public packageName = input.required<string>();

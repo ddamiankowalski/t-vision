@@ -1,12 +1,24 @@
 .ui-loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid #363c4d;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__spinner {
+    width: 28px;
+    height: 28px;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+
+  &--secondary-dark-highlight {
+    .ui-loader__spinner {
+      border: 2px solid var(--secondary-dark-highlight);
+      border-bottom-color: transparent;
+    }
+  }
 }
 
 @keyframes rotation {
