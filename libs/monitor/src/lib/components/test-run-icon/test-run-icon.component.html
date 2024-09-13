@@ -1,10 +1,15 @@
-@switch (status()) { @case ('FAILED') {
+@switch (status()) { @case ('FAILURE') {
 <div class="mon-test-run-icon__wrapper">
   <ui-icon name="check" />
   <span class="mon-test-run-icon__icon mon-test-run-icon__icon--failed"></span>
 </div>
 <span class="mon-test-run-icon__text">Failed</span>
 } @case ('ONGOING') {
+<div class="mon-test-run-icon__wrapper">
+  <span class="mon-test-run-icon__text">Failed</span>
+</div>
+<span class="mon-test-run-icon__text">Success</span>
+
 <ui-loader color="warn-dark" />
 } @case ('SUCCESS') {
 <div class="mon-test-run-icon__wrapper">

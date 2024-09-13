@@ -1,6 +1,15 @@
 import { IsString, IsNotEmpty, IsIn } from 'class-validator';
 
-export class CreateTestRunRequestDto {
+export class CreateTestStartRequestDto {
+  @IsString()
+  @IsNotEmpty()
+  packageName: string;
+
+  @IsString()
+  runId: string;
+}
+
+export class CreateTestEndRequestDto {
   @IsString()
   @IsNotEmpty()
   packageName: string;
@@ -9,7 +18,6 @@ export class CreateTestRunRequestDto {
   runId: string;
 
   @IsString()
-  @IsNotEmpty()
-  @IsIn(['RUN_START', 'RUN_END'])
-  requestType: 'RUN_START' | 'RUN_END';
+  @IsIn(['SUCCESS', 'FAILURE'])
+  status: 'SUCCESS' | 'FAILURE';
 }

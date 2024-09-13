@@ -2,9 +2,21 @@
   flex-basis: 22rem;
   flex-shrink: 1;
 
-  &--finished {
+  &--failure {
+    .mon-test-run__wrapper {
+      border: 1px solid var(--failure-dark);
+    }
+  }
+
+  &--success {
     .mon-test-run__wrapper {
       border: 1px solid var(--success-dark);
+    }
+  }
+
+  &--ongoing {
+    .mon-test-run__wrapper {
+      border: 1px solid var(--warn-dark);
     }
   }
 

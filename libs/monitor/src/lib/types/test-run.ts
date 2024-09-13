@@ -4,6 +4,7 @@ export type TestRun = {
   uuid: string;
   packageName: PackageName;
   timeMs: number;
+  status: 'FAILURE' | 'SUCCESS';
 };
 
 export type PackageTestRuns = {

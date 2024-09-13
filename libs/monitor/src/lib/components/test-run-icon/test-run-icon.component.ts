@@ -18,7 +18,7 @@ import { ClassBinder } from '@t-vision/utils';
   imports: [LoaderComponent, IconComponent],
 })
 export class TestRunIconComponent {
-  public status = input.required<'SUCCESS' | 'ONGOING' | 'FAILED'>();
+  public status = input.required<'SUCCESS' | 'ONGOING' | 'FAILURE'>();
 
   constructor(classBinder: ClassBinder) {
     classBinder.bind('mon-test-run-icon');

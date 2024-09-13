@@ -11,6 +11,9 @@ export class TestRun {
   @Column()
   timeMs: number;
 
+  @Column()
+  status: 'SUCCESS' | 'FAILURE';
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 }

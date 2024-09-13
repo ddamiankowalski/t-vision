@@ -1,16 +1,21 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import TestRunService from './test-run.service';
-import { CreateTestRunRequestDto } from './dto';
+import { CreateTestEndRequestDto, CreateTestStartRequestDto } from './dto';
 import { TestRunRequest } from './entities';
 
 @Controller('test-run-request')
 export class TestRunRequestController {
-  constructor(private jobsService: TestRunService) {}
+  constructor(private testRunService: TestRunService) {}
 
-  @Post()
-  postRequest(
-    @Body() requestDto: CreateTestRunRequestDto
+  @Post('start')
+  postStartRequest(
+    @Body() requestDto: CreateTestStartRequestDto
   ): Promise<TestRunRequest> {
-    return this.jobsService.postTestRunRequest(requestDto);
+    return this.testRunService.postTestRunStartRequest(requestDto);
+  }
+
+  @Post('end')
+  postEndRequest(@Body() requestDto: CreateTestEndRequestDto) {
+    return this.testRunService.postTestRunEndRequest(requestDto);
   }
 }

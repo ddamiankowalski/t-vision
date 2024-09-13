@@ -31,25 +31,22 @@ import { TestRunIconComponent } from '../test-run-icon/test-run-icon.component';
 })
 export class TestRunComponent implements AfterViewInit {
   public packageName = input.required<string>();
-
-  public runStatus = computed(() => {
+  public status = computed(() => {
     const runInfo = this.runInfo();
 
-    if (runInfo && !runInfo.ongoing) {
-      return 'SUCCESS';
+    if (!runInfo || !runInfo.lastRun) {
+      return 'ONGOING';
     }
 
-    return 'ONGOING';
+    return runInfo.lastRun.status;
   });
 
-  public runInfo = computed(() => {
-    const informations = this._testRunStore.packageRuns();
-    const packageInfo = informations.find(
-      (info) => info.packageName === this.packageName()
-    );
-
-    return packageInfo || null;
-  });
+  public isOngoing = computed(() => this.runInfo()?.ongoing);
+  public runInfo = computed(() =>
+    this._testRunStore
+      .packageRuns()
+      .find((info) => info.packageName === this.packageName())
+  );
 
   private _testRunStore = inject(TestRunStore);
 
@@ -63,12 +60,22 @@ export class TestRunComponent implements AfterViewInit {
   }
 
   private _updateStyles(): void {
-    this._classBinder.conditionalBind(!run.ongoing, 'mon-test-run--finished');
+    this._classBinder.unbindAll();
+    this._classBinder.bind('mon-test-run');
 
     const run = this.runInfo();
+    if (!run) {
+      return;
+    }
 
-    if (run) {
-      this._classBinder.conditionalBind(!run.ongoing, 'mon-test-run--finished');
+    if (run.ongoing || !run.lastRun) {
+      this._classBinder.bind('mon-test-run--ongoing');
+    } else {
+      if (run.lastRun.status === 'FAILURE') {
+        this._classBinder.bind('mon-test-run--failure');
+      } else {
+        this._classBinder.bind('mon-test-run--success');
+      }
     }
   }
 }

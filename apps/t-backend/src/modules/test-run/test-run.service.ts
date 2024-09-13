@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TestRun } from './entities/test-run.entity';
 import { Repository } from 'typeorm';
 import { TestRunRequest } from './entities';
-import { CreateTestRunRequestDto } from './dto';
+import { CreateTestEndRequestDto, CreateTestStartRequestDto } from './dto';
 import { PackageService } from '../packages/package.service';
 import { TestRunGateway } from './test-run.gateway';
 
@@ -37,45 +37,62 @@ export default class TestRunService {
     return this._testRunRepository.find();
   }
 
-  public async postTestRunRequest(
-    requestDto: CreateTestRunRequestDto
+  public async postTestRunEndRequest(
+    requestDto: CreateTestEndRequestDto
   ): Promise<TestRunRequest> {
-    const { requestType } = requestDto;
+    const { runId } = requestDto;
+    await this._validateRequest(runId, 'RUN_END');
 
+    return await this._postEndRequest(requestDto);
+  }
+
+  public async postTestRunStartRequest(
+    requestDto: CreateTestStartRequestDto
+  ): Promise<TestRunRequest> {
+    const { runId } = requestDto;
+    await this._validateRequest(runId, 'RUN_START');
+
+    return await this._postStartRequest(requestDto);
+  }
+
+  private async _validateRequest(
+    runId: string,
+    requestType: 'RUN_START' | 'RUN_END'
+  ): Promise<void> {
     const request = await this._requestRepository.findOneBy({
-      runId: requestDto.runId,
+      runId,
       requestType,
     });
 
     if (request) {
       throw new HttpException(
-        `Test run with given id ${requestDto.runId} and type ${requestType} already exists!`,
+        `Test run with given id ${runId} and type ${requestType} already exists!`,
         HttpStatus.BAD_REQUEST
       );
-    }
-
-    if (requestType === 'RUN_START') {
-      return await this._postStartRequest(requestDto);
-    } else {
-      return await this._postEndRequest(requestDto);
     }
   }
 
   private async _postStartRequest(
-    dto: CreateTestRunRequestDto
+    dto: CreateTestStartRequestDto
   ): Promise<TestRunRequest> {
     this._packageService.addPackage(dto.packageName);
 
-    const request = await this._requestRepository.save({ ...dto });
+    const request = await this._requestRepository.save({
+      ...dto,
+      requestType: 'RUN_START',
+    });
     this._gateway.emitTestRunStart(request.packageName);
 
     return request;
   }
 
   private async _postEndRequest(
-    dto: CreateTestRunRequestDto
+    dto: CreateTestEndRequestDto
   ): Promise<TestRunRequest> {
-    const endRequest = this._requestRepository.create({ ...dto });
+    const endRequest = this._requestRepository.create({
+      ...dto,
+      requestType: 'RUN_END',
+    });
     const startRequest = await this._requestRepository.findOneBy({
       runId: dto.runId,
       packageName: dto.packageName,
@@ -89,16 +106,19 @@ export default class TestRunService {
       );
     }
 
-    this._saveTestRun(startRequest);
-
+    this._saveTestRun(startRequest, dto.status);
     return await this._requestRepository.save(endRequest);
   }
 
-  private async _saveTestRun(startRequest: TestRunRequest): Promise<void> {
+  private async _saveTestRun(
+    startRequest: TestRunRequest,
+    status: 'SUCCESS' | 'FAILURE'
+  ): Promise<void> {
     const timeMs = this._calculateTestRunTime(startRequest);
     const run = await this._testRunRepository.save({
       packageName: startRequest.packageName,
       timeMs,
+      status,
     });
 
     this._gateway.emitTestRunEnd(run);
