@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToOne } from 'typeorm';
+import { PackageStats } from './package-stats.entity';
 
 @Entity()
 export class Package {
@@ -7,6 +8,9 @@ export class Package {
 
   @Column({ name: 'package_name' })
   packageName: string;
+
+  @OneToOne(() => PackageStats, (stats) => stats.package)
+  packageStats: PackageStats;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

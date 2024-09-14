@@ -9,6 +9,7 @@ import {
   TestRun,
   TestRunRequest,
 } from './modules';
+import { PackageStats } from './modules/packages/entities/package-stats.entity';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import {
         username: config.get<string>('DATABASE_USER'),
         password: config.get<string>('DATABASE_PASSWORD'),
         database: config.get<string>('DATABASE_NAME'),
-        entities: [TestRun, TestRunRequest, Package],
+        entities: [TestRun, TestRunRequest, Package, PackageStats],
         synchronize: true,
       }),
       inject: [ConfigService],

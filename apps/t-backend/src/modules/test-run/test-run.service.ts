@@ -115,12 +115,14 @@ export default class TestRunService {
     status: 'SUCCESS' | 'FAILURE'
   ): Promise<void> {
     const timeMs = this._calculateTestRunTime(startRequest);
+
     const run = await this._testRunRepository.save({
       packageName: startRequest.packageName,
       timeMs,
       status,
     });
 
+    this._packageService.updateAverageTime(run.packageName, timeMs);
     this._gateway.emitTestRunEnd(run);
   }
 
