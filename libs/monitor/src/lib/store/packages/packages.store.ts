@@ -1,13 +1,15 @@
 import { signalStore, withHooks, withState } from '@ngrx/signals';
 import { withPackagesMethods } from './packages.methods';
-import { Package } from '../../types/package';
+import { Package, PackageName, PackageStats } from '../../types/package';
 
 type PackageStoreState = {
   packages: Package[];
+  stats: (PackageStats & { packageName: PackageName })[];
 };
 
 const initialState: PackageStoreState = {
   packages: [],
+  stats: [],
 };
 
 export const PackageStore = signalStore(

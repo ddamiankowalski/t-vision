@@ -13,6 +13,7 @@ import { TestRunStore } from '../../store';
 import { TestTimePipe } from '../../pipes';
 import { LoaderComponent } from '@t-vision/ui';
 import { TestRunIconComponent } from '../test-run-icon/test-run-icon.component';
+import { TestRunAvgIndicatorComponent } from '../test-run-avg-indicator/test-run-avg-indicator.component';
 
 @Component({
   standalone: true,
@@ -27,6 +28,7 @@ import { TestRunIconComponent } from '../test-run-icon/test-run-icon.component';
     LoaderComponent,
     TestRunIconComponent,
     TestRunIconComponent,
+    TestRunAvgIndicatorComponent,
   ],
 })
 export class TestRunComponent implements AfterViewInit {

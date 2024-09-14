@@ -19,6 +19,9 @@ export class PackageStats {
   @Column({ name: 'avg_time' })
   averageTime: number;
 
+  @Column({ name: 'last_time' })
+  lastTime: number;
+
   @Column({ name: 'run_quantity' })
   runQuantity: number;
 

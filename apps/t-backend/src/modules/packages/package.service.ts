@@ -50,6 +50,7 @@ export class PackageService {
 
     stats.runQuantity += 1;
     stats.averageTime = (stats.averageTime + timeMs) / stats.runQuantity;
+    stats.lastTime = timeMs;
     await this._packageStatsRepository.save(stats);
   }
 
@@ -57,6 +58,7 @@ export class PackageService {
     await this._packageStatsRepository.save({
       averageTime: 0,
       runQuantity: 0,
+      lastTime: 0,
       package: testPackage,
     });
   }

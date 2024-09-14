@@ -4,4 +4,11 @@ export type Package = {
   createdAt: string;
 };
 
+export type PackageStats = {
+  uuid: string;
+  averageTime: number;
+  runQuantity: number;
+  lastTime: number;
+};
+
 export type PackageName = string;
