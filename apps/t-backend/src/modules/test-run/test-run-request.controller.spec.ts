@@ -7,9 +7,15 @@ import { TestRun, TestRunRequest } from './entities';
 import { PackageService } from '../packages/package.service';
 import { Package } from '../packages/entities/package.entity';
 import { PackageStats } from '../packages/entities/package-stats.entity';
+import { CreateTestEndRequestDto } from './dto';
 
 describe('TestRunRequestController', () => {
   let controller: TestRunRequestController;
+  let service: TestRunService;
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  })
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -40,16 +46,29 @@ describe('TestRunRequestController', () => {
     ]
     }).compile();
 
-    controller = moduleRef.get(TestRunRequestController)
+    controller = moduleRef.get(TestRunRequestController);
+    service = moduleRef.get(TestRunService);
   });
 
   it('successfully initilizes', () => {
     expect(controller).toBeTruthy();
   })
 
-  it('calling the POST start controller with correct body returns correct response', async () => {
-    const dto = { packageName: 'test-name', runId: 'test-id' };
-    const response = await controller.postStartRequest(dto);
-    expect(response).toEqual({ ...dto, requestType: 'RUN_START' });
+  it('calls start request successfully', () => {
+    const spy = jest.spyOn(service, 'postTestRunStartRequest');
+    const dto = { packageName: 'test-name', runId: 'test-id' }
+    controller.postStartRequest(dto);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith(dto);
+  })
+
+  it('calls end request successfully', () => {
+    const spy = jest.spyOn(service, 'postTestRunEndRequest');
+    const dto = { packageName: 'test-name', runId: 'test-id', status: 'FAILURE' } as CreateTestEndRequestDto;
+    controller.postEndRequest(dto);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith(dto);
   })
 })
