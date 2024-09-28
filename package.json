@@ -46,7 +46,7 @@
     "@angular/compiler-cli": "~18.2.0",
     "@angular/language-service": "~18.2.0",
     "@nestjs/schematics": "^10.0.1",
-    "@nestjs/testing": "^10.0.2",
+    "@nestjs/testing": "^10.4.4",
     "@nx/angular": "^19.6.4",
     "@nx/cypress": "19.6.4",
     "@nx/eslint": "19.6.4",

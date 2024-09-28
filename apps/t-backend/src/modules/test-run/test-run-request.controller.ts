@@ -5,17 +5,22 @@ import { TestRunRequest } from './entities';
 
 @Controller('test-run-request')
 export class TestRunRequestController {
-  constructor(private testRunService: TestRunService) {}
+  constructor(private _testRunService: TestRunService) {}
 
   @Post('start')
   postStartRequest(
     @Body() requestDto: CreateTestStartRequestDto
   ): Promise<TestRunRequest> {
-    return this.testRunService.postTestRunStartRequest(requestDto);
+    return this._testRunService.postTestRunStartRequest(requestDto);
+  }
+
+  @Post('start-many')
+  postManyStartRequest(@Body() requestDto: CreateTestStartRequestDto): Promise<TestRunRequest> {
+    return this._testRunService.postTestRunStartRequest(requestDto)
   }
 
   @Post('end')
   postEndRequest(@Body() requestDto: CreateTestEndRequestDto) {
-    return this.testRunService.postTestRunEndRequest(requestDto);
+    return this._testRunService.postTestRunEndRequest(requestDto);
   }
 }

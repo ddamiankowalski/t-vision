@@ -21,5 +21,7 @@ import { DashboardHeaderComponent } from '../dashboard-header/dashboard-header.c
 export class DashboardComponent {
   constructor(classBinder: ClassBinder) {
     classBinder.bind('tv-dashboard');
+
+    console.log("this is something!")
   }
 }
