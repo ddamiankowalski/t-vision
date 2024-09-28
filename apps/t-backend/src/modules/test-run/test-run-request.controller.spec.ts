@@ -17,18 +17,21 @@ describe('TestRunRequestController', () => {
       providers: [
         TestRunService,
         PackageService,
-        TestRunGateway,
+        {
+          provide: TestRunGateway,
+          useValue: { emitTestRunStart: jest.fn() }
+        },
         {
           provide: getRepositoryToken(TestRun),
           useValue: {}
         },
         {
           provide: getRepositoryToken(TestRunRequest),
-          useValue: {}
+          useValue: { findOneBy: jest.fn(), save: jest.fn().mockImplementation((dto) => Promise.resolve(dto)) }
         },
         {
           provide: getRepositoryToken(Package),
-          useValue: {}
+          useValue: { findOneBy: jest.fn() }
         },
         {
           provide: getRepositoryToken(PackageStats),
@@ -42,5 +45,11 @@ describe('TestRunRequestController', () => {
 
   it('successfully initilizes', () => {
     expect(controller).toBeTruthy();
+  })
+
+  it('calling the POST start controller with correct body returns correct response', async () => {
+    const dto = { packageName: 'test-name', runId: 'test-id' };
+    const response = await controller.postStartRequest(dto);
+    expect(response).toEqual({ ...dto, requestType: 'RUN_START' });
   })
 })
