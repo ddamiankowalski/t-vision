@@ -1,6 +1,6 @@
 import { getRepositoryToken } from "@nestjs/typeorm";
 import TestRunService from "./test-run.service"
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { TestRunGateway } from "./test-run.gateway";
 import { PackageService } from "../packages/package.service";
 import { TestRun, TestRunRequest } from "./entities";
@@ -9,9 +9,10 @@ import { PackageStats } from "../packages/entities/package-stats.entity";
 
 describe('TestRunService', () => {
   let service: TestRunService;
+  let moduleRef: TestingModule;
 
   beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       providers: [
         TestRunService,
         PackageService,
@@ -43,5 +44,14 @@ describe('TestRunService', () => {
 
   it('successfully creates the service', () => {
     expect(service).toBeTruthy();
+  })
+
+  describe('#getLastPackageRun', () => {
+    it('calls the #findOne method from db with correct arguments', () => {
+      const repository = moduleRef.get(getRepositoryToken(TestRun))
+      repository.findOne = jest.fn().mockImplementation(() => Promise.resolve(null));
+
+      service.getLastPackageRun('test-package');
+    })
   })
 })
